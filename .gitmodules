@@ -1,0 +1,6 @@
+[submodule "casdoor"]
+	path = casdoor
+	url = https://github.com/casdoor/casdoor
+[submodule "app"]
+	path = app
+	url = git@github.com:yaruz/app.git
