@@ -1,4 +1,5 @@
 .idea
+config/*
 log/*
 data/*
 !.placeholder

@@ -1,34 +1,14 @@
-version: '3.9'
+version: '3.7'
 
 services:
-
-  identity:
-    build:
-      context: ./casdoor
-      dockerfile: Dockerfile
-    restart: always
-    ports:
-      - "8000:8000"
-    networks:
-      - backend
-    depends_on:
-      redis:
-        condition: service_started
-      db:
-        condition: service_healthy
-    environment:
-      RUNNING_IN_DOCKER: "true"
-    volumes:
-      - ./config/casdoor:/conf/
-
   restapi:
+    container_name: restapi
+    image: restapi
     build:
-      context: ./app
-      dockerfile: ./app/deployment/Dockerfile
-    restart: always
+      context: ./..
+      dockerfile: ./deployment/Dockerfile
     volumes:
         - ./log:/bin/log
-        - ./config/app:/bin/config
     ports:
       - "80:80"
     networks:
@@ -48,16 +28,16 @@ services:
     image: postgres:13-alpine
     volumes:
         - postgresql-data:/var/lib/postgresql/data
-        - ./config/db:/docker-entrypoint-initdb.d
+        - ./data/db:/docker-entrypoint-initdb.d
     restart: always
     environment:
       #PGDATA: /var/lib/postgresql/data
       POSTGRES_DB:        data
       POSTGRES_USER:      postgres
       POSTGRES_PASSWORD:  1gjcnuhtc1!
-      POSTGRES_MULTIPLE_DATABASES: data_rotated, reference, identity
+      POSTGRES_MULTIPLE_DATABASES: identity, search, reference
     ports:
-      - 5400:5432
+      - 5401:5432
     networks:
       - backend
     tty: true

@@ -1,11 +1,12 @@
-version: '3.7'
+version: '3.8'
 
 services:
 
-  casdoor:
-    build:
-      context: ./casdoor
-      dockerfile: Dockerfile
+  identity:
+    image:  casbin/casdoor
+#    build:
+#      context: ./casdoor
+#      dockerfile: Dockerfile
     restart: always
     ports:
       - "8000:8000"
@@ -19,17 +20,16 @@ services:
     environment:
       RUNNING_IN_DOCKER: "true"
     volumes:
-      - ./conf/casdoor:/conf/
+      - ./config.local/casdoor:/conf/
 
   db:
-    container_name: db
     #db with dev data
     #image: app-postgres12.2:0.0.1
     # for pure postgres
     image: postgres:13-alpine
     volumes:
       - postgresql-data:/var/lib/postgresql/data
-      - ./conf/db:/docker-entrypoint-initdb.d
+      - ./config/db:/docker-entrypoint-initdb.d
     restart: always
     environment:
       #PGDATA: /var/lib/postgresql/data
@@ -49,7 +49,6 @@ services:
       retries: 5
 
   redis:
-    container_name: redis
     image: redis:6.0
     restart: always
     volumes:

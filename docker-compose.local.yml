@@ -3,9 +3,10 @@ version: '3.9'
 services:
 
   identity:
-    build:
-      context: ./casdoor
-      dockerfile: Dockerfile
+    image:  casbin/casdoor
+    #    build:
+    #      context: ./casdoor
+    #      dockerfile: Dockerfile
     restart: always
     ports:
       - "8000:8000"
@@ -19,16 +20,16 @@ services:
     environment:
       RUNNING_IN_DOCKER: "true"
     volumes:
-      - ./config/casdoor:/conf/
+      - ./config.local/casdoor:/conf/
 
   restapi:
     build:
       context: ./app
-      dockerfile: ./app/deployment/Dockerfile
+      dockerfile: ./deployment/Dockerfile
     restart: always
     volumes:
         - ./log:/bin/log
-        - ./config/app:/bin/config
+        - ./config.local/app:/bin/config
     ports:
       - "80:80"
     networks:
@@ -41,14 +42,13 @@ services:
     tty: true
 
   db:
-    container_name: db
     #db with dev data
     #image: app-postgres12.2:0.0.1
     # for pure postgres
     image: postgres:13-alpine
     volumes:
-        - postgresql-data:/var/lib/postgresql/data
-        - ./config/db:/docker-entrypoint-initdb.d
+      - postgresql-data:/var/lib/postgresql/data
+      - ./config/db:/docker-entrypoint-initdb.d
     restart: always
     environment:
       #PGDATA: /var/lib/postgresql/data
@@ -68,7 +68,6 @@ services:
       retries: 5
 
   redis:
-    container_name: redis
     image: redis:6.0
     restart: always
     volumes:
@@ -76,7 +75,7 @@ services:
     ports:
       - 6379:6379
     networks:
-        - backend
+      - backend
     tty: true
 
 volumes:
