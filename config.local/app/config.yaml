@@ -48,9 +48,9 @@ db:
 
 auth:
   endpoint:     "http://identity:8000"
-  clientId:     "5e431f823a2bf338a213"
-  clientSecret: "6b4a40bf3dd051f717900b75b2ca56c166007834"
-  organization: "org"
+  clientId:     "ec40429a043eb4952b08"
+  clientSecret: "3dc4e6160778584ddd94049e08f0a0ae8bd80cdb"
+  organization: "socbazar"
   application:  "socbazar"
   SignInRedirectURL:  "http://localhost/api/account/signin"
   jwtsigningkey: "LxsKJywDL5O5PvgODZhBH12KE6k2yL8E"
@@ -60,3 +60,17 @@ auth:
     Lang: "rus"
 
 CacheLifeTime:  240
+
+
+Socnets:
+
+  Telegram:
+    Application:
+      Title:            "Yaruzz"
+      ShortName:        "yaruzz"
+      AppID:            16433962
+      AppHash:          "c47038063d593134511bb756011fb409"
+      ServerHost:       "149.154.167.40:443"
+      PublicKeyFile:    "config/tg_public_keys.pem"
+      InitWarnChannel:  True
+
